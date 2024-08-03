@@ -1,5 +1,5 @@
-const ProductsModel = require('../cursos/models/products.model');
-const OrderModel = require('./models/order.model');
+const ProductsModel = require('../models/products.model');
+const OrderModel = require('../models/order.model');
 const { authJwt } = require("../middlewares");
 const OrderController = require("../controllers/order.controller");
 
