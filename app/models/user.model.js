@@ -27,7 +27,7 @@ userSchema.findById = function (cb) {
 const User = mongoose.model("User", userSchema);
 
 const findById = (id) => {
-  return User.findById(id)
+  return User.findById(id).exec()
       .then((result) => {
           result = result.toJSON();
           delete result._id;
