@@ -26,7 +26,7 @@ userSchema.findById = function (cb) {
 
 const User = mongoose.model("User", userSchema);
 
-exports.findById = (id) => {
+const findById = (id) => {
   return User.findById(id)
       .then((result) => {
           result = result.toJSON();
@@ -36,7 +36,7 @@ exports.findById = (id) => {
       });
 };
 
-exports.list = (perPage, page) => {
+const list = (perPage, page) => {
   return new Promise((resolve, reject) => {
       User.find()
           .limit(perPage)
@@ -51,13 +51,13 @@ exports.list = (perPage, page) => {
   });
 };
 
-exports.patchUser = (id, userData) => {
+const patchUser = (id, userData) => {
   return User.findOneAndUpdate({
       _id: id
   }, userData);
 };
 
-exports.removeById = (userId) => {
+const removeById = (userId) => {
   return new Promise((resolve, reject) => {
       User.deleteMany({_id: userId}, (err) => {
           if (err) {
@@ -69,4 +69,10 @@ exports.removeById = (userId) => {
   });
 };
 
-module.exports = User;
+module.exports = {
+  User,
+  list,
+  findById,
+  patchUser,
+  removeById
+};

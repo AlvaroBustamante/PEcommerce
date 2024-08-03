@@ -42,7 +42,7 @@ orderSchema.findById = function (cb) {
 
 const Order = mongoose.model('Order', orderSchema);
 
-exports.findById = (id) => {
+const findById = (id) => {
     return Order.findById(id)
         .then((result) => {
             if(result){
@@ -56,12 +56,12 @@ exports.findById = (id) => {
         })
 };
 
-exports.createOrder = (orderData) => {
+const createOrder = (orderData) => {
     const order = new Orden(orderData);
     return order.save();
 };
 
-exports.list = (perPage, page) => {
+const list = (perPage, page) => {
     return new Promise((resolve, reject) => {
         Order.find()
             .limit(perPage)
@@ -76,19 +76,19 @@ exports.list = (perPage, page) => {
     });
 };
 
-exports.patchOrder = (id, orderData) => {
+const patchOrder = (id, orderData) => {
     return Order.findOneAndUpdate({
         _id: id
     }, orderData);
 };
 
-exports.pagarOrder = (orderId) => {
+const pagarOrder = (orderId) => {
     return Order.findOneAndUpdate(
         {_id: orderId},
         { $set: { estado_pago: 'completado' } },);
 };
 
-exports.removeById = (orderId) => {
+const removeById = (orderId) => {
     return new Promise((resolve, reject) => {
         Order.deleteMany({_id: orderId}, (err) => {
             if (err) {
@@ -100,5 +100,14 @@ exports.removeById = (orderId) => {
     });
 };
 
-module.exports = Order;
+
+module.exports = {
+    Order,
+    createOrder,
+    list,
+    findById,
+    patchOrder,
+    pagarOrder,
+    removeById
+  };
 

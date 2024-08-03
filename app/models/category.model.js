@@ -20,7 +20,7 @@ categorySchema.findById = function (cb) {
 
 const Category = mongoose.model("Category", categorySchema);
 
-exports.findById = (id) => {
+const findById = (id) => {
   return Category.findById(id)
       .then((result) => {
           result = result.toJSON();
@@ -30,12 +30,12 @@ exports.findById = (id) => {
       });
 };
 
-exports.createCategory = (categoryData) => {
+const createCategory = (categoryData) => {
   const category = new Category(categoryData);
   return category.save();
 };
 
-exports.list = (perPage, page) => {
+const list = (perPage, page) => {
   return new Promise((resolve, reject) => {
       Category.find()
           .limit(perPage)
@@ -50,13 +50,13 @@ exports.list = (perPage, page) => {
   });
 };
 
-exports.patchCategory = (id, categoryData) => {
+const patchCategory = (id, categoryData) => {
   return Category.findOneAndUpdate({
       _id: id
   }, categoryData);
 };
 
-exports.removeById = (categoryId) => {
+const removeById = (categoryId) => {
   return new Promise((resolve, reject) => {
       Category.deleteMany({_id: categoryId}, (err) => {
           if (err) {
@@ -68,4 +68,11 @@ exports.removeById = (categoryId) => {
   });
 };
 
-module.exports = Category;
+module.exports = {
+  Category,
+  createCategory,
+  list,
+  findById,
+  patchCategory,
+  removeById
+};

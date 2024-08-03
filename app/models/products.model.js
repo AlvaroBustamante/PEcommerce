@@ -27,7 +27,7 @@ productSchema.findById = function (cb) {
 
 const Products = mongoose.model("Products", productSchema);
 
-exports.findById = (id) => {
+const findById = (id) => {
   return Products.findById(id)
       .then((result) => {
           result = result.toJSON();
@@ -37,12 +37,12 @@ exports.findById = (id) => {
       });
 };
 
-exports.createProducts = (productData) => {
+const createProducts = (productData) => {
   const product = new Products(productData);
   return product.save();
 };
 
-exports.list = (perPage, page) => {
+const list = (perPage, page) => {
   return new Promise((resolve, reject) => {
     Products.find()
           .limit(perPage)
@@ -57,13 +57,13 @@ exports.list = (perPage, page) => {
   });
 };
 
-exports.patchProducts = (id, productsData) => {
+const patchProducts = (id, productsData) => {
   return Products.findOneAndUpdate({
       _id: id
   }, productsData);
 };
 
-exports.removeById = (productId) => {
+const removeById = (productId) => {
   return new Promise((resolve, reject) => {
     Products.deleteMany({_id: productId}, (err) => {
           if (err) {
@@ -75,4 +75,11 @@ exports.removeById = (productId) => {
   });
 };
 
-module.exports = Products;
+module.exports = {
+  Products,
+  createProducts,
+  list,
+  findById,
+  patchProducts,
+  removeById
+};
