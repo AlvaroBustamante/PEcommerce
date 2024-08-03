@@ -101,8 +101,12 @@ exports.signin = (req, res) => {
                 authorities.push("ROLE_" + user.roles[i].name.toUpperCase());
             }
 
-            req.session.token = token;
+            //req.session.token = token;
 
+            res.cookie('auth-session', token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+            });
             res.status(200).send({
                 id: user._id,
                 username: user.username,

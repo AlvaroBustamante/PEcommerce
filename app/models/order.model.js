@@ -57,7 +57,7 @@ const findById = (id) => {
 };
 
 const createOrder = (orderData) => {
-    const order = new Orden(orderData);
+    const order = new Order(orderData);
     return order.save();
 };
 

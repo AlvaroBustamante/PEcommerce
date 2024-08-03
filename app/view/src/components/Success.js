@@ -1,40 +1,44 @@
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import Cookies from "js-cookie";
 
 function Success() {
+  const token = Cookies.get("auth-session");
   const location = useLocation();
 
   useEffect(() => {
     const query = new URLSearchParams(location.search);
     const orderId = query.get("order_id");
+
     if (orderId) {
-      fetch(`http://localhost:8080/ordenes/${orderId}/pagar`, {
+      fetch(`http://localhost:8080/order/${orderId}/pagar`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
+          "Authorization": `Bearer ${token}`
         },
       })
-        .then(response => response.json())
-        .then(data => {
-          console.log('Pago completado:', data);
+        .then(response => response.text()) // Obtén la respuesta como texto
+        .then(text => {
+          console.log('Respuesta del servidor:', text); // Imprime el texto de la respuesta
+          try {
+            const data = JSON.parse(text); // Intenta parsear el texto como JSON
+            console.log('Pago completado:', data);
+          } catch (e) {
+            console.error('Error parseando JSON:', e);
+          }
         })
         .catch(error => {
           console.error('Error completando el pago:', error);
         });
     }
-  }, [location]);
+  }, [location, token]);
 
   return (
-    <>
-      <h2>Gracias por tu orden!</h2>
-      <h4>Tu pago se ha realizado satisfactoriamente.</h4>
-      <p>
-        Si tienes alguna duda contactarnos al:
-        <a href="mailto:orders-prueba@prueba.com">orders-prueba@prueba.com</a>.
-      </p>
-      <div>
-      </div>
-    </>
+    <div>
+      <h1>Pago Completo</h1>
+      <p>Tu pago ha sido procesado con éxito.</p>
+    </div>
   );
 }
 

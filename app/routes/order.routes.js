@@ -66,8 +66,8 @@ module.exports = function (app) {
                       },
                   ],
                   mode: "payment",
-                  success_url: `http://localhost:3000/success?order_id=${newOrder._id}`,
-                  cancel_url: "http://localhost:3000/cancel",
+                  success_url: `http://localhost:8080/success?order_id=${newOrder._id}`,
+                  cancel_url: "http://localhost:8080/cancel",
               });
   
               res.json({ id: session.id });

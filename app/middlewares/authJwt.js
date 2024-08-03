@@ -5,7 +5,10 @@ const {User} = require('../models/user.model');
 const Role = db.role;
 
 verifyToken = (req, res, next) => {
-    let token = req.session.token;
+    if (!req.cookies) {
+        return res.status(500).send({ message: "Cookies not found in request." });
+    }
+    let token = req.cookies['auth-session'];
 
     if (!token) {
         return res.status(403).send({ message: "No token provided!" });

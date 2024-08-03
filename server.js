@@ -1,19 +1,38 @@
 const express = require("express");
+const path = require('path');
 const cors = require("cors");
+const cookieParser = require('cookie-parser');
+
 const cookieSession = require("cookie-session");
 const app = express();
 const PORT = process.env.PORT || 8080;
 require("dotenv").config();
 
+const authConfig = require("./app/config/auth.config");
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
+  cookieSession({
+    name: "auth-session",
+    keys: [authConfig.secret],
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production', // En producción
+    sameSite: 'Lax', // Puede ser 'None' si estás usando HTTPS
+  })
+);
+/*app.use(
     cookieSession({
         name: "auth-session",
-        keys: ["COOKIE_SECRET"], // should use as secret environment variable
-        httpOnly: true,
+        keys: ["COOKIE_SECRET"],
+        httpOnly: true, 
     })
-);
+);*/
+
+app.use(cors({
+  origin: 'http://localhost:3000', // Cambia al origen correcto
+  credentials: true
+}));
 
 const dbConfig = require("./app/config/db.config");
 const db = require("./app/models");
@@ -38,12 +57,20 @@ app.get("/", (req, res) => {
     res.send("Bienvenidos a mi tienda");
 });
 
+app.use(cookieParser());
+
 require("./app/routes/auth.routes")(app);
 require("./app/routes/user.routes")(app);
 require("./app/routes/products.routes")(app);
 require("./app/routes/order.routes")(app);
 require("./app/routes/category.routes")(app);
 
+app.use(express.static(path.join(__dirname, './app/view/build')));
+
+// Ruta para manejar todas las solicitudes y redirigirlas al frontend
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, './app/view/build', 'index.html'));
+});
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
