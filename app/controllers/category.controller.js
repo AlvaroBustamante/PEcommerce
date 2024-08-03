@@ -30,7 +30,7 @@ exports.getById = (req, res) => {
 };
 
 exports.patchById = (req, res) => {
-    CategoryModel.patchCupon(req.params.categoryId, req.body)
+    CategoryModel.patchCategory(req.params.categoryId, req.body)
         .then((result) => {
             res.status(204).send({});
         });
