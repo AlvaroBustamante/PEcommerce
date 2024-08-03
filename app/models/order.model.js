@@ -40,6 +40,13 @@ orderSchema.findById = function (cb) {
     return this.model('Order').find({id: this.id}, cb);
 };
 
+orderSchema.statics.findByUserId = function (userId, perPage, page) {
+    return this.find({ user_id: userId })
+        .limit(perPage)
+        .skip(perPage * page)
+        .exec();
+};
+
 const Order = mongoose.model('Order', orderSchema);
 
 const findById = (id) => {
@@ -75,7 +82,13 @@ const list = (perPage, page) => {
             })
     });
 };
-
+const miscompras = (userId, perPage, page) => {
+    return Order.findByUserId(userId, perPage, page)
+        .then((orders) => orders)
+        .catch((err) => {
+            throw new Error(err);
+        });
+};
 const patchOrder = (id, orderData) => {
     return Order.findOneAndUpdate({
         _id: id
@@ -105,6 +118,7 @@ module.exports = {
     createOrder,
     list,
     findById,
+    miscompras,
     patchOrder,
     pagarOrder,
     removeById

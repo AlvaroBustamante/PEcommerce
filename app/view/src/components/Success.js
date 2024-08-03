@@ -11,7 +11,7 @@ function Success() {
     const orderId = query.get("order_id");
 
     if (orderId) {
-      fetch(`http://localhost:8080/order/${orderId}/pagar`, {
+      fetch(`https://hackaton-final-rzlk.onrender.com/order/${orderId}/pagar`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

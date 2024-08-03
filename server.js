@@ -17,22 +17,10 @@ app.use(
     name: "auth-session",
     keys: [authConfig.secret],
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production', // En producción
-    sameSite: 'Lax', // Puede ser 'None' si estás usando HTTPS
+    secure: process.env.NODE_ENV === 'production', 
+    sameSite: 'Lax',
   })
 );
-/*app.use(
-    cookieSession({
-        name: "auth-session",
-        keys: ["COOKIE_SECRET"],
-        httpOnly: true, 
-    })
-);*/
-
-app.use(cors({
-  origin: 'http://localhost:3000', // Cambia al origen correcto
-  credentials: true
-}));
 
 const dbConfig = require("./app/config/db.config");
 const db = require("./app/models");

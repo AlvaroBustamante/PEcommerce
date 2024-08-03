@@ -11,7 +11,7 @@ function StripePayment() {
   const [userId, setUserId] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:8080/products",{
+    fetch("https://hackaton-final-rzlk.onrender.com/products",{
       credentials: 'include'
     })
       .then((response) => response.json())
@@ -38,7 +38,7 @@ function StripePayment() {
       "Authorization": `Bearer ${token}`
     };
 
-    const response = await fetch("http://localhost:8080/api/create-checkout-session", {
+    const response = await fetch("https://hackaton-final-rzlk.onrender.com/api/create-checkout-session", {
       method: "POST",
       headers: headers,
       body: JSON.stringify(body),
@@ -64,19 +64,26 @@ function StripePayment() {
   };
 
   return (
-    <div className="d-flex flex-wrap">
-      {products.map((product) => (
-        <Card style={{ width: "20rem", margin: "10px" }} key={product._id}>
-          <Card.Img variant="top" src={product.img}/>
-          <Card.Body>
-            <Card.Title>{product.name}</Card.Title>
-            <Card.Text>{product.description}</Card.Text>
-            <Button variant="primary" onClick={() => makePayment(product._id)}>
-            Comprar {product.price}
-            </Button>
-          </Card.Body>
-        </Card>
-      ))}
+    <div>
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <Button variant="secondary" onClick={() => window.location.href = "https://hackaton-final-rzlk.onrender.com/miscompras"}>
+          Mis Compras
+        </Button>
+      </div>
+      <div className="d-flex flex-wrap">
+        {products.map((product) => (
+          <Card style={{ width: "20rem", margin: "10px" }} key={product._id}>
+            <Card.Img variant="top" src={product.img} />
+            <Card.Body>
+              <Card.Title>{product.name}</Card.Title>
+              <Card.Text>{product.description}</Card.Text>
+              <Button variant="primary" onClick={() => makePayment(product._id)}>
+                Comprar {product.price}
+              </Button>
+            </Card.Body>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 }

@@ -28,6 +28,20 @@ module.exports = function (app) {
     app.get('/order/:orderId', 
         OrderController.getById
     );
+    app.get('/miscompras',
+        [authJwt.verifyToken],
+        async (req, res) => {
+            try {
+                const userId = req.userId;
+                const { perPage = 10, page = 0 } = req.query;
+                const orders = await OrderModel.miscompras(userId, parseInt(perPage), parseInt(page));
+                res.json(orders);
+            } catch (error) {
+                console.error('Error al obtener las órdenes del usuario:', error);
+                res.status(500).json({ message: 'Error al obtener las órdenes del usuario' });
+            }
+        }
+    );
     app.patch('/order/:orderId',
         [authJwt.verifyToken, authJwt.isModerator],
         OrderController.patchById
@@ -66,14 +80,13 @@ module.exports = function (app) {
                       },
                   ],
                   mode: "payment",
-                  success_url: `http://localhost:8080/success?order_id=${newOrder._id}`,
-                  cancel_url: "http://localhost:8080/cancel",
+                  success_url: `https://hackaton-final-rzlk.onrender.com/success?order_id=${newOrder._id}`,
+                  cancel_url: "https://hackaton-final-rzlk.onrender.com/cancel",
               });
   
               res.json({ id: session.id });
           } 
    );
-  
 
     app.delete('/order/:orderId', 
         [authJwt.verifyToken, authJwt.isAdmin],
