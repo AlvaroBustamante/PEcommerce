@@ -68,5 +68,4 @@ exports.removeById = (userId) => {
       });
   });
 };
-
-module.exports = User;
+//module.exports = User;

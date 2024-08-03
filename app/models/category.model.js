@@ -67,5 +67,3 @@ exports.removeById = (categoryId) => {
       });
   });
 };
-
-module.exports = Category;

@@ -74,5 +74,3 @@ exports.removeById = (productId) => {
       });
   });
 };
-
-module.exports = Products;

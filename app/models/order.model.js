@@ -99,6 +99,3 @@ exports.removeById = (orderId) => {
         });
     });
 };
-
-module.exports = Order;
-
