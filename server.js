@@ -3,7 +3,7 @@ const cors = require("cors");
 const cookieSession = require("cookie-session");
 const app = express();
 const PORT = process.env.PORT || 8080;
-require( "dotenv").config();
+require("dotenv").config();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

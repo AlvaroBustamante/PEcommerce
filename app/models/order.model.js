@@ -100,7 +100,6 @@ const removeById = (orderId) => {
     });
 };
 
-
 module.exports = {
     Order,
     createOrder,
@@ -110,4 +109,3 @@ module.exports = {
     pagarOrder,
     removeById
   };
-

@@ -66,7 +66,6 @@ const removeById = (categoryId) => {
           }
       });
   });
-};
 
 module.exports = {
   Category,
