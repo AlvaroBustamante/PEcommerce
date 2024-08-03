@@ -22,6 +22,10 @@ module.exports = function (app) {
         );
         next();
     });
+    app.post('/order', [
+        [authJwt.verifyToken],
+        OrderController.insert
+    ]);
     app.get('/order', 
         OrderController.list
     );
